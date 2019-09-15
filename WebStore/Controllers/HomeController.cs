@@ -53,5 +53,16 @@ namespace WebStore.Controllers
         {
             return View(_employees);
         }
+
+        // Вывод подробной информации и сотруднике
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return View(_employees.FirstOrDefault(x => x.Id == id));
+        }
     }
 }
