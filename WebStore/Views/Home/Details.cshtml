@@ -42,13 +42,13 @@
             @Html.DisplayNameFor(model => model.DateBirth)
         </dt>
         <dd>
-            @Model.DateBirth
+            @Model.DateBirth.ToLongDateString()
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DateEmployment)
         </dt>
         <dd>
-            @Model.DateEmployment
+            @Model.DateEmployment.ToLongDateString()
         </dd>
     </dl>
 </div>
