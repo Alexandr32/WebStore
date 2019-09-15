@@ -19,15 +19,20 @@ namespace WebStore.Controllers
                 FirstName = "Иван",
                 SurName = "Иванов",
                 Patronymic = "Иванович",
-                Age = 22
-            },
+                Age = 22,
+                DateBirth = new DateTime(1997, 7, 20),
+                DateEmployment = new DateTime(),
+
+    },
             new EmployeeView
             {
                 Id = 2,
                 FirstName = "Владислав",
                 SurName = "Петров",
                 Patronymic = "Иванович",
-                Age = 35
+                Age = 35,
+                DateBirth = new DateTime(1984, 5, 17),
+                DateEmployment = new DateTime(),
             },
             new EmployeeView
             {
@@ -35,7 +40,9 @@ namespace WebStore.Controllers
                 FirstName = "Алексей",
                 SurName = "Аександров",
                 Patronymic = "Петрович",
-                Age = 35
+                Age = 35,
+                DateBirth = new DateTime(1984, 8, 11),
+                DateEmployment = new DateTime(),
             }
         };
 
@@ -44,7 +51,7 @@ namespace WebStore.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return View(_employees);
         }
     }
 }
