@@ -34,6 +34,8 @@ namespace WebStore
         // которые впоследствии потребуются при работе приложения
         public void ConfigureServices(IServiceCollection services)
         {
+            // Добавляем сервисы, необходимые для mvc
+            services.AddMvc();
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении
@@ -49,6 +51,14 @@ namespace WebStore
                 // о возникающем исключении
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMvc(routes =>
+            {
+                // Добавляем обработчик маршрута по умолчанию
+                routes.MapRoute(
+                name: "default",
+                template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             var hello = Configuration["MyHelloWorld"];
 
