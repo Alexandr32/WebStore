@@ -21,7 +21,7 @@ namespace WebStore.Controllers
                 Patronymic = "Иванович",
                 Age = 22,
                 DateBirth = new DateTime(1997, 7, 20),
-                DateEmployment = new DateTime(),
+                DateEmployment = DateTime.Now,
 
     },
             new EmployeeView
@@ -32,7 +32,7 @@ namespace WebStore.Controllers
                 Patronymic = "Иванович",
                 Age = 35,
                 DateBirth = new DateTime(1984, 5, 17),
-                DateEmployment = new DateTime(),
+                DateEmployment = DateTime.Now,
             },
             new EmployeeView
             {
@@ -42,7 +42,7 @@ namespace WebStore.Controllers
                 Patronymic = "Петрович",
                 Age = 35,
                 DateBirth = new DateTime(1984, 8, 11),
-                DateEmployment = new DateTime(),
+                DateEmployment = DateTime.Now,
             }
         };
 
