@@ -12,7 +12,7 @@ namespace WebStore.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return Content("Ура все работает!");
+            return View();
         }
 
     }
