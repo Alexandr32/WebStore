@@ -1,13 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@*подключаем  пространства имен наших моделей*@
+@using WebStore.ViewsModels;
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-</head>
-<body>
-    <div>
-        @RenderBody()
-    </div>
-</body>
-</html>
+@*подключаем tag helpers*@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers 
