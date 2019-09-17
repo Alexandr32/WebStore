@@ -8,7 +8,7 @@ using WebStore.ViewsModels;
 
 namespace WebStore.Controllers
 {
-    public class HomeController : Controller
+    public class EmployeeController : Controller
     {
         // Создаем модель
         private readonly List<EmployeeView> _employees = new List<EmployeeView>
