@@ -52,6 +52,9 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
 
+            // Включает с работу со статичскими файлами
+            app.UseStaticFiles();
+
             app.UseMvc(routes =>
             {
                 // Добавляем обработчик маршрута по умолчанию
