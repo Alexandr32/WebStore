@@ -33,12 +33,7 @@ namespace WebStore.Controllers
         public IActionResult Cart() {
             return View();
         }
-        public IActionResult BlogSingle() {
-            return View();
-        }
-        public IActionResult Blog() {
-            return View();
-        }
+    
         public IActionResult NotFound()
         {
             return View();
