@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "BlogSingle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            @await Html.PartialAsync("Partial/_LeftSideBar")
+        </div>
+        <div class="col-sm-9">
+            @await Html.PartialAsync("Partial/_BlogPostArea")
+            @await Html.PartialAsync("Partial/_RatingArea")
+            @await Html.PartialAsync("Partial/_RatingArea")
+            @await Html.PartialAsync("Partial/_SocialsShare")
+            @await Html.PartialAsync("Partial/_Comments")
+            @await Html.PartialAsync("Partial/_ResponseArea")
+            @await Html.PartialAsync("Partial/_RepalyBox")
+        </div>
+    </div>
+</div>
+
