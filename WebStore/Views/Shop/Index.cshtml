@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Индекс";
+}
+
+@* Слайдер *@
+@await Html.PartialAsync("Partial/_Slider")
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @* Левое меню *@
+                @await Html.PartialAsync("Partial/LeftSideBar/_LeftSideBar")
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                @await Html.PartialAsync("Partial/_FeaturesItems")
+
+                @await Html.PartialAsync("Partial/_CategoryTab");
+
+                @await Html.PartialAsync("Partial/_RecommendedItems");
+
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.Controllers
 {
-    public class HomeController : Controller
+    public class BlogController : Controller
     {
-        
-        public IActionResult ContactUs() {
+        public IActionResult BlogSingle()
+        {
             return View();
         }
-        
-        public IActionResult NotFound()
+        public IActionResult Blog()
         {
             return View();
         }
