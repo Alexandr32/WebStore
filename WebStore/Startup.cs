@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStore.Infrastructure.Implementation;
+using WebStore.Infrastructure.Intefaces;
 
 namespace WebStore
 {
@@ -36,6 +38,9 @@ namespace WebStore
         {
             // Добавляем сервисы, необходимые для mvc
             services.AddMvc();
+
+            // Добавляем разрешение зависимости
+            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении
