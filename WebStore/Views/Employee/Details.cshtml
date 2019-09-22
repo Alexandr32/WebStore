@@ -4,8 +4,9 @@
     ViewData["Title"] = "Информация о сотруднике";
 }
 
-<h1>Информация о сотруднике</h1>
-
+<h1>@ViewData["Title"]</h1>
+<h4>Сотрудник</h4>
+<hr />
 <div>
     <dl>
         <dt>
@@ -49,4 +50,5 @@
 
 <div>
     @Html.ActionLink("Назад к списку", "Index")
+    <hr />
 </div>
