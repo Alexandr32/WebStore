@@ -20,6 +20,65 @@ namespace WebStore.Controllers
         }
 
         /// <summary>
+        /// Добавление или редактирование сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("edit/{id?}")]
+        public IActionResult Edit(int? id)
+        {
+            EmployeeView model;
+
+            // Проверка введен ли ид
+            if (id.HasValue)
+            {
+                model = _employeesData.GetById(id.Value);
+                if (model is null)
+                {
+                    // возвращаем результат 404 Not Found
+                    return NotFound();
+                }
+            }
+            else
+            {
+                model = new EmployeeView();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(EmployeeView model)
+        {
+            // Провкрка новый отрудник или у него уже есть ид
+            if (model.Id > 0)
+            {
+                var dbItem = _employeesData.GetById(model.Id);
+                if (dbItem is null)
+                {
+                    // возвращаем результат 404 Not Found
+                    return NotFound(); 
+                }
+                    
+                dbItem.FirstName = model.FirstName;
+                dbItem.SurName = model.SurName;
+                dbItem.Age = model.Age;
+                dbItem.Patronymic = model.Patronymic;
+                dbItem.DateBirth = model.DateBirth;
+                dbItem.DateEmployment = model.DateEmployment;
+            }
+            else
+            {
+                // Добавлеям запись
+                _employeesData.AddNew(model);
+            }
+            _employeesData.Commit();
+
+            // Возвращаемся к списку
+            return RedirectToAction(nameof(Index));
+        }
+
+        /// <summary>
         /// Вывод списка сотрудников
         /// </summary>
         /// <returns></returns>
@@ -48,6 +107,18 @@ namespace WebStore.Controllers
  
             // Иначе возвращаем сотрудника
             return View(employee);
+        }
+
+        /// <summary>
+        /// Удаление сотрудника
+        /// </summary>
+        /// <param name="id">Id сотрудника</param>
+        /// <returns></returns>
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _employeesData.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

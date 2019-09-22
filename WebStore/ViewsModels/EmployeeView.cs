@@ -34,11 +34,13 @@ namespace WebStore.ViewsModels
         /// Дата рождения
         /// </summary>
         [Display(Name = "Дата рождения")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateBirth { get; set; }
         /// <summary>
         /// Дата трудоустройства
         /// </summary>
         [Display(Name = "Дата трудоустройства")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateEmployment { get; set; }
     }
 }
