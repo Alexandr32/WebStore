@@ -8,6 +8,7 @@ using WebStore.ViewsModels;
 
 namespace WebStore.Controllers
 {
+    [Route("users")]
     public class EmployeeController : Controller
     {
         // Создаем модель
@@ -48,21 +49,35 @@ namespace WebStore.Controllers
 
 
 
-        // GET: Home
+        /// <summary>
+        /// Вывод списка сотрудников
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View(_employees);
         }
 
-        // Вывод подробной информации и сотруднике
+        /// <summary>
+        /// Вывод подробной информации и сотруднике
+        /// </summary>
+        /// <param name="id">Id сотрудника</</param>
+        /// <returns></returns>
+        [Route ( "{id}" )]
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            //Получаем сотрудника по Id
+            var employee = _employees.FirstOrDefault(t => t.Id.Equals(id));
+
+            //Если такого не существует
+            if (employee is null)
             {
+                //возвращаем результат 404 Not Found
                 return NotFound();
             }
-
-            return View(_employees.FirstOrDefault(x => x.Id == id));
+ 
+            //Иначе возвращаем сотрудника
+            return View(employee);
         }
     }
 }
