@@ -24,6 +24,7 @@ namespace WebStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpGet]
         [Route("edit/{id?}")]
         public IActionResult Edit(int? id)
         {
@@ -50,32 +51,41 @@ namespace WebStore.Controllers
         [Route("edit/{id?}")]
         public IActionResult Edit(EmployeeView model)
         {
-            // Провкрка новый отрудник или у него уже есть ид
-            if (model.Id > 0)
-            {
-                var dbItem = _employeesData.GetById(model.Id);
-                if (dbItem is null)
-                {
-                    // возвращаем результат 404 Not Found
-                    return NotFound(); 
-                }
-                    
-                dbItem.FirstName = model.FirstName;
-                dbItem.SurName = model.SurName;
-                dbItem.Age = model.Age;
-                dbItem.Patronymic = model.Patronymic;
-                dbItem.DateBirth = model.DateBirth;
-                dbItem.DateEmployment = model.DateEmployment;
-            }
-            else
-            {
-                // Добавлеям запись
-                _employeesData.AddNew(model);
-            }
-            _employeesData.Commit();
 
-            // Возвращаемся к списку
-            return RedirectToAction(nameof(Index));
+            // Проверяем модель на валидность
+            if (ModelState.IsValid)
+            {
+                // Провкрка новый отрудник или у него уже есть ид
+                if (model.Id > 0)
+                {
+                    var dbItem = _employeesData.GetById(model.Id);
+                    if (dbItem is null)
+                    {
+                        // возвращаем результат 404 Not Found
+                        return NotFound();
+                    }
+
+                    dbItem.FirstName = model.FirstName;
+                    dbItem.SurName = model.SurName;
+                    dbItem.Age = model.Age;
+                    dbItem.Patronymic = model.Patronymic;
+                    dbItem.DateBirth = model.DateBirth;
+                    dbItem.DateEmployment = model.DateEmployment;
+                }
+                else
+                {
+                    // Добавлеям запись
+                    _employeesData.AddNew(model);
+                }
+                _employeesData.Commit();
+
+                // Возвращаемся к списку
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Если не валидна, возвращаем ее на представление
+            return View(model);
+
         }
 
         /// <summary>
