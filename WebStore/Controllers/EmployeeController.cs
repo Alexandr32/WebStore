@@ -51,6 +51,10 @@ namespace WebStore.Controllers
         [Route("edit/{id?}")]
         public IActionResult Edit(EmployeeView model)
         {
+            if (model.Age < 18)
+            {
+                ModelState.AddModelError("Age", "Ошибка возраста!");
+            }
 
             // Проверяем модель на валидность
             if (ModelState.IsValid)
