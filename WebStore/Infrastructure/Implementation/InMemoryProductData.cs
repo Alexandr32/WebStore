@@ -9,7 +9,6 @@ namespace WebStore.Infrastructure.Implementation
 {
     public class InMemoryProductData : IProductData
     {
-
         private readonly List<Category> _category;
         private readonly List<Brand> _brands;
 
