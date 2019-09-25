@@ -282,7 +282,7 @@ namespace WebStore.Infrastructure.Implementation
             return _brands;
         }
 
-        public IEnumerable<Category> GetSections()
+        public IEnumerable<Category> GetCategories()
         {
             return _category;
         }

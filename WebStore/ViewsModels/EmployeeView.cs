@@ -14,7 +14,7 @@ namespace WebStore.ViewsModels
         /// <summary>
         /// Имя
         /// </summary>
-        [ Required ( AllowEmptyStrings = false , ErrorMessage = "Имя является обязательным" )]
+        [ Required (AllowEmptyStrings = false , ErrorMessage = "Имя является обязательным")]
         [StringLength(maximumLength: 200, MinimumLength = 2, ErrorMessage = "В имени должно быть не менее 2х и не более 200 символов" )]
         [Display(Name = "Имя")]
         public string FirstName { get; set; }
@@ -22,7 +22,7 @@ namespace WebStore.ViewsModels
         /// <summary>
         /// Фамилия
         /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Фамилия является обязательной" )]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Фамилия является обязательной")]
         [Display(Name = "Фамилия")]
         public string SurName { get; set; }
 

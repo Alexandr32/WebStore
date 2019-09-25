@@ -41,6 +41,7 @@ namespace WebStore
 
             // Добавляем разрешение зависимости
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении

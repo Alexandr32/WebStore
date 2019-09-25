@@ -15,7 +15,7 @@ namespace WebStore.Infrastructure.Intefaces
         /// Запрос коллекции секций
         /// </summary>
         /// <returns>Коллекция секций</returns>
-        IEnumerable<Category> GetSections();
+        IEnumerable<Category> GetCategories();
         /// <summary>
         /// Запрос коллекции брендов
         /// </summary>
