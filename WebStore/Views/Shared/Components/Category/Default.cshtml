@@ -24,7 +24,7 @@
                             @foreach (var childCategory in parentCategory.ChildCategories)
                             {
                                 <li>
-                                    <a asp-controller="Catalog" asp-action="Shop" asp-route-CategoryId="@childCategory.Id">
+                                    <a asp-controller="Catalog" asp-action="Shop" asp-route-categoryId="@childCategory.Id">
                                         @childCategory.Name
                                     </a>
                                 </li>

@@ -8,8 +8,8 @@
             @foreach (var brand in Model)
             {
                 <li>
-                    <a href="#">
-                        <span class="pull-right"> (@brand.ProductsCount)</span> 
+                    <a asp-controller="Catalog" asp-action="Shop" asp-route-categoryId="@brand.Id">
+                        <span class="pull-right">(@brand.ProductsCount)</span> 
                         @brand.Name
                     </a>
                 </li>
