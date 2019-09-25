@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Filters;
 
 namespace WebStore.Infrastructure.Intefaces
 {
@@ -21,5 +22,11 @@ namespace WebStore.Infrastructure.Intefaces
         /// </summary>
         /// <returns>Коллекция брендов</returns>
         IEnumerable<Brand> GetBrands();
+        /// <summary>
+        /// Список товаров
+        /// </summary>
+        /// <param name="filter">Фильтр товаров</param>
+        /// <returns></returns>
+        IEnumerable<Product> GetProducts(ProductFilter filter);
     }
 }
