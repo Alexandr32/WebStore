@@ -8,6 +8,9 @@ using WebStore.ViewsModels;
 
 namespace WebStore.ViewComponents
 {
+    /// <summary>
+    /// Класс модели представления для списка брендов
+    /// </summary>
     public class BrandsViewComponent : ViewComponent
     {
         private readonly IProductData _productData;
@@ -15,6 +18,7 @@ namespace WebStore.ViewComponents
         {
             _productData = productData;
         }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var brands = GetBrands();
