@@ -11,21 +11,21 @@ namespace WebStore.ViewComponents
     /// <summary>
     /// ViewComponent, который будет отображать секции, загружаемые из базы
     /// </summary>
-    public class CategoriesViewComponent : ViewComponent
+    public class CategoryViewComponent : ViewComponent
     {
         /// <summary>
         /// Интерфейс для сервиса продуктов
         /// </summary>
         private readonly IProductData _productData;
 
-        public CategoriesViewComponent(IProductData productData)
+        public CategoryViewComponent(IProductData productData)
         {
             _productData = productData;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var Categories = GetCategories();
-            return View(Categories);
+            var categories = GetCategories();
+            return View(categories);
         }
         private List<CategoryViewModel> GetCategories()
         {
