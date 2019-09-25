@@ -7,7 +7,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 namespace WebStore.ViewsModels
 {
     /// <summary>
-    /// Класс модели представления для секции
+    /// Класс модели представления для каталога
     /// </summary>
     public class CategoryViewModel : INamedEntity, IOrderedEntity
     {
