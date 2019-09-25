@@ -6,7 +6,7 @@ namespace WebStore.Domain.Entities
     /// <summary>
     /// Сущность секция
     /// </summary>
-    public class Section : NamedEntity, IOrderedEntity
+    public class Category : NamedEntity, IOrderedEntity
     {
         /// <summary>
         /// Родительская секция (при наличии)
