@@ -65,7 +65,7 @@ namespace WebStore
                 // Добавляем обработчик маршрута по умолчанию
                 routes.MapRoute(
                 name: "default",
-                template: "{controller=Shop}/{action=Index}/{id?}");
+                template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             var hello = Configuration["MyHelloWorld"];
