@@ -422,12 +422,14 @@ namespace WebStore.Infrastructure.Implementation
             var products = _products;
 
             if (filter.CategoryId.HasValue)
-                products = products.Where(p =>
-                    p.CategoryId.Equals(filter.CategoryId)).ToList();
+            {
+                products = products.Where(p => p.CategoryId.Equals(filter.CategoryId)).ToList();
+            }
+                
             if (filter.BrandId.HasValue)
-                products = products.Where(p =>
-                        p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value))
-                    .ToList();
+            {
+                products = products.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value)).ToList();
+            }
 
             return products;
         }
