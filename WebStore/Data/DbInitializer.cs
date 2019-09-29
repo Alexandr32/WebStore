@@ -17,7 +17,7 @@ namespace WebStore.Data
             // Проверка есть ли данные в БД
             if (context.Products.Any())
             {
-                return; // DB has been seeded
+                return;
             }
 
             var categories = new List<Category>
