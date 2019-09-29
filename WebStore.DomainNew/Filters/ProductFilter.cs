@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WebStore.Domain.Entities;
+using WebStore.DomainNew.Entities;
 
-namespace WebStore.Domain.Filters
+namespace WebStore.DomainNew.Filters
 {
     /// <summary>
     /// Класс для фильтрации товаров

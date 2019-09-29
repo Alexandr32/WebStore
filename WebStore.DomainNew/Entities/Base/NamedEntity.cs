@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WebStore.Domain.Entities.Base.Interfaces;
+using WebStore.DomainNew.Entities.Base.Interfaces;
 
-namespace WebStore.Domain.Entities.Base
+namespace WebStore.DomainNew.Entities.Base
 {
     /// <summary>
     /// Сущность с именем
