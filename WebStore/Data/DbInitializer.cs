@@ -12,7 +12,7 @@ namespace WebStore.Data
     {
         public static void Initialize(WebStoreContext context)
         {
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             // Проверка есть ли данные в БД
             if (context.Products.Any())
@@ -235,13 +235,13 @@ namespace WebStore.Data
             };
             using (var trans = context.Database.BeginTransaction())
             {
-                foreach (var section in categories)
+                foreach (var category in categories)
                 {
-                    context.Categories.Add(section);
+                    context.Categories.Add(category);
                 }
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Sections] ON" );
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Category] ON");
                 context.SaveChanges();
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Sections] OFF" );
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Category] OFF");
                 trans.Commit();
             }
             var brands = new List<Brand>()
