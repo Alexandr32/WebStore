@@ -12,7 +12,7 @@ namespace WebStore.Data
     {
         public static void Initialize(WebStoreContext context)
         {
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             // Проверка есть ли данные в БД
             if (context.Products.Any())
