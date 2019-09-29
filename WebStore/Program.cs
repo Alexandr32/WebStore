@@ -19,7 +19,7 @@ namespace WebStore
         {
             var host = BuildWebHost(args);
 
-            // нужно для получения DbContext
+            // Нужно для получения DbContext
             using (var scope = host.Services.CreateScope()) 
             {
                 var services = scope.ServiceProvider;
