@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebStore.DAL.Context;
+using WebStore.DomainNew.Entities;
 using WebStore.Infrastructure.Implementation;
 using WebStore.Infrastructure.Intefaces;
 
@@ -45,6 +47,38 @@ namespace WebStore
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddDbContext<WebStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // Добавляем сервис для аутентификации
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<WebStoreContext>()
+                .AddDefaultTokenProviders();
+            // Опции для аутентификации
+            services.Configure<IdentityOptions>(option =>
+            {
+                // Настройка размера пароля
+                option.Password.RequiredLength = 6;
+                // Настройки блокировки
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                option.Lockout.MaxFailedAccessAttempts = 10;
+                option.Lockout.AllowedForNewUsers = true;
+
+                // Пользовательские настройки
+                option.User.RequireUniqueEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromDays(100);
+                options.LoginPath = "/Account/Login";
+                // Если логин не указан, ASP.NET Core по умолчанию будет /Account/Login
+                options.LogoutPath = "/Account/Logout";
+                // Если LogoutPath не установлен здесь, ASP.NET Core по умолчанию будет / Account / Logout
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                // Если AccessDeniedPath не установлен здесь, ASP.NET Core по умолчанию будет / Account / AccessDenied
+                options.SlidingExpiration = true;
+            });
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении
@@ -63,6 +97,11 @@ namespace WebStore
 
             // Включает с работу со статичскими файлами
             app.UseStaticFiles();
+
+            app.UseWelcomePage("/welcome");
+
+            // Использовать ауктонтификацию
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
