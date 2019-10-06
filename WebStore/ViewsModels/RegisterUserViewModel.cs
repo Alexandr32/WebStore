@@ -10,7 +10,7 @@ namespace WebStore.ViewsModels
     public class RegisterUserViewModel
     {
         // Имя пользователя
-        [Required, MaxLength(255)]
+        [Required, MaxLength(2)]
         public string UserName { get; set; }
 
         // Почта

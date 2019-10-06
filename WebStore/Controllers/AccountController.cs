@@ -38,10 +38,10 @@ namespace WebStore.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterUserViewModel model) 
+        public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
             // Проверяем на валидацию данных
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -68,8 +68,33 @@ namespace WebStore.Controllers
             // Если все успешно успешно -производим вход
             await signInManager.SignInAsync(user, false);
 
-            return RedirectToAction("Index", "Home");
-        }
+            RedirectToAction("Index", "Home");*/
 
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = model.UserName };
+                //создаем сущность пользователь
+                var createResult = await userManager.CreateAsync(user,
+                model.Password); //используем менеджер для создания
+                if (createResult.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, false);
+                    //если успешно-производим логин
+                    RedirectToAction("Index", "Home");
+                }
+                else //иначе
+                {
+                    foreach (var identityError in createResult.Errors)
+                    {
+//выводим                        ошибки
+
+                        ModelState.AddModelError("", identityError.Description);
+                    }
+                }
+            }
+
+            return View(model);
+        }
+            
     }
 }
