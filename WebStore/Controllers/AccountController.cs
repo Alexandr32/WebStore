@@ -9,7 +9,9 @@ using WebStore.ViewsModels;
 
 namespace WebStore.Controllers
 {
-    // Контролер для регестрации и входа пользователя
+    /// <summary>
+    /// Контроллер для регестрации и входа пользователя
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -21,7 +23,6 @@ namespace WebStore.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-
 
         /// <summary>
         /// Вход пользователя
@@ -57,15 +58,12 @@ namespace WebStore.Controllers
                     // Иначе на главную
                     return RedirectToAction("Index", "Home"); 
                 }
-
             }
 
             // Говорим пользователю, что вход невозможен
             ModelState.AddModelError("", "Вход невозможен"); 
             return View(model);
         }
-
-
 
         /// <summary>
         /// Регестарция нового пользователя
@@ -76,7 +74,6 @@ namespace WebStore.Controllers
         {
             return View(new RegisterUserViewModel());
         }
-
 
         /// <summary>
         /// Регестарция новго пользователя
