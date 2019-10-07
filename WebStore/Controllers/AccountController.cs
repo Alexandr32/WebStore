@@ -23,20 +23,66 @@ namespace WebStore.Controllers
         }
 
 
-        // Вход пользоватля
+        /// <summary>
+        /// Вход пользователя
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
-        // Регестарция пользователя
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Проверяем логин/пароль пользователя
+                var loginResult = await signInManager.PasswordSignInAsync(
+                    model.UserName, 
+                    model.Password, 
+                    model.RememberMe,
+                    lockoutOnFailure: false);
+
+                // Проверяем пользователя
+                if (loginResult.Succeeded)
+                {
+                    // Если returnUrl - локальный
+                    if (Url.IsLocalUrl(model.ReturnUrl)) 
+                    {
+                        // Перенаправляем туда, откуда пришли
+                        return Redirect(model.ReturnUrl); 
+                    }
+                    // Иначе на главную
+                    return RedirectToAction("Index", "Home"); 
+                }
+
+            }
+
+            // Говорим пользователю, что вход невозможен
+            ModelState.AddModelError("", "Вход невозможен"); 
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// Регестарция нового пользователя
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Register()
         {
             return View(new RegisterUserViewModel());
         }
 
+
+        /// <summary>
+        /// Регестарция новго пользователя
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
