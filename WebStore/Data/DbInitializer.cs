@@ -1,26 +1,26 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.DAL.Context;
 using WebStore.DomainNew.Entities;
-using WebStore.DomainNew.Filters;
-using WebStore.Infrastructure.Intefaces;
 
-namespace WebStore.Infrastructure.Implementation
+namespace WebStore.Data
 {
-    public class InMemoryProductData : IProductData
+    public class DbInitializer
     {
-        // Список категорий
-        private readonly List<Category> _category;
-        // Список брендов
-        private readonly List<Brand> _brands;
-        // Список товаров
-        private readonly List<Product> _products;
-
-        public InMemoryProductData()
+        public static void Initialize(WebStoreContext context)
         {
-            // Заполняем коллекции
-            _category = new List<Category>()
+            context.Database.EnsureCreated();
+
+            // Проверка есть ли данные в БД
+            if (context.Products.Any())
+            {
+                return;
+            }
+
+            var categories = new List<Category>
             {
                 new Category()
                 {
@@ -233,7 +233,18 @@ namespace WebStore.Infrastructure.Implementation
                     ParentId = null
                 }
             };
-            _brands = new List<Brand>()
+            using (var trans = context.Database.BeginTransaction())
+            {
+                foreach (var category in categories)
+                {
+                    context.Categories.Add(category);
+                }
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Category] ON");
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Category] OFF");
+                trans.Commit();
+            }
+            var brands = new List<Brand>()
             {
                 new Brand()
                 {
@@ -276,9 +287,20 @@ namespace WebStore.Infrastructure.Implementation
                     Id = 7,
                     Name = "Rösch creative culture",
                     Order = 6
-                }
+                },
             };
-            _products = new List<Product>()
+            using (var trans = context.Database.BeginTransaction())
+            {
+                foreach (var brand in brands)
+                {
+                    context.Brands.Add(brand);
+                }
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Brands] ON" );
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Brands] OFF" );
+                trans.Commit();
+            }
+            var products = new List<Product>()
             {
                 new Product()
                 {
@@ -401,37 +423,17 @@ namespace WebStore.Infrastructure.Implementation
                     BrandId = 3
                 },
             };
-        }
-
-        public IEnumerable<Brand> GetBrands()
-        {
-            return _brands;
-        }
-
-        public IEnumerable<Category> GetCategories()
-        {
-            return _category;
-        }
-        /// <summary>
-        /// Список товаров
-        /// </summary>
-        /// <param name="filter">Отфильтрованый товаров</param>
-        /// <returns></returns>
-        public IEnumerable<Product> GetProducts(ProductFilter filter)
-        {
-            var products = _products;
-
-            if (filter.CategoryId.HasValue)
+            using (var trans = context.Database.BeginTransaction())
             {
-                products = products.Where(p => p.CategoryId.Equals(filter.CategoryId)).ToList();
+                foreach (var product in products)
+                {
+                    context.Products.Add(product);
+                }
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Products] ON" );
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Products] OFF" );
+                trans.Commit();
             }
-                
-            if (filter.BrandId.HasValue)
-            {
-                products = products.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value)).ToList();
-            }
-
-            return products;
         }
     }
 }
