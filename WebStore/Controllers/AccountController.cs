@@ -71,5 +71,16 @@ namespace WebStore.Controllers
 
             return View(model);
         }
+
+        /// <summary>
+        /// Выход из акаунта
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
