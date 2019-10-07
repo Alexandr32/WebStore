@@ -4,65 +4,135 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Intefaces;
 using WebStore.ViewsModels;
 
 namespace WebStore.Controllers
 {
+    [Route("users")]
     public class EmployeeController : Controller
     {
-        // Создаем модель
-        private readonly List<EmployeeView> _employees = new List<EmployeeView>
+        private readonly IEmployeesData _employeesData;
+
+        public EmployeeController(IEmployeesData employeesData)
         {
-            new EmployeeView
-            {
-                Id = 1,
-                FirstName = "Иван",
-                SurName = "Иванов",
-                Patronymic = "Иванович",
-                Age = 22,
-                DateBirth = new DateTime(1997, 7, 20),
-                DateEmployment = DateTime.Now,
-
-    },
-            new EmployeeView
-            {
-                Id = 2,
-                FirstName = "Владислав",
-                SurName = "Петров",
-                Patronymic = "Иванович",
-                Age = 35,
-                DateBirth = new DateTime(1984, 5, 17),
-                DateEmployment = DateTime.Now,
-            },
-            new EmployeeView
-            {
-                Id = 3,
-                FirstName = "Алексей",
-                SurName = "Аександров",
-                Patronymic = "Петрович",
-                Age = 35,
-                DateBirth = new DateTime(1984, 8, 11),
-                DateEmployment = DateTime.Now,
-            }
-        };
-
-
-
-        // GET: Home
-        public ActionResult Index()
-        {
-            return View(_employees);
+            _employeesData = employeesData;
         }
 
-        // Вывод подробной информации и сотруднике
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Добавление или редактирование сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
+            EmployeeView model;
+
+            // Проверка введен ли ид
+            if (id.HasValue)
             {
-                return NotFound();
+                model = _employeesData.GetById(id.Value);
+                if (model is null)
+                {
+                    // возвращаем результат 404 Not Found
+                    return NotFound();
+                }
+            }
+            else
+            {
+                model = new EmployeeView();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(EmployeeView model)
+        {
+            if (model.Age < 18)
+            {
+                ModelState.AddModelError("Age", "Ошибка возраста!");
             }
 
-            return View(_employees.FirstOrDefault(x => x.Id == id));
+            // Проверяем модель на валидность
+            if (ModelState.IsValid)
+            {
+                // Провкрка новый отрудник или у него уже есть ид
+                if (model.Id > 0)
+                {
+                    var dbItem = _employeesData.GetById(model.Id);
+                    if (dbItem is null)
+                    {
+                        // возвращаем результат 404 Not Found
+                        return NotFound();
+                    }
+
+                    dbItem.FirstName = model.FirstName;
+                    dbItem.SurName = model.SurName;
+                    dbItem.Age = model.Age;
+                    dbItem.Patronymic = model.Patronymic;
+                    dbItem.DateBirth = model.DateBirth;
+                    dbItem.DateEmployment = model.DateEmployment;
+                }
+                else
+                {
+                    // Добавлеям запись
+                    _employeesData.AddNew(model);
+                }
+                _employeesData.Commit();
+
+                // Возвращаемся к списку
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Если не валидна, возвращаем ее на представление
+            return View(model);
+
+        }
+
+        /// <summary>
+        /// Вывод списка сотрудников
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
+        {
+            return View(_employeesData.GetAll());
+        }
+
+        /// <summary>
+        /// Вывод подробной информации и сотруднике
+        /// </summary>
+        /// <param name="id">Id сотрудника</</param>
+        /// <returns></returns>
+        [Route ( "{id}" )]
+        public ActionResult Details(int id)
+        {
+            // Получаем сотрудника по Id
+            var employee = _employeesData.GetById(id);
+
+            // Если такого не существует
+            if (employee is null)
+            {
+                //возвращаем результат 404 Not Found
+                return NotFound();
+            }
+ 
+            // Иначе возвращаем сотрудника
+            return View(employee);
+        }
+
+        /// <summary>
+        /// Удаление сотрудника
+        /// </summary>
+        /// <param name="id">Id сотрудника</param>
+        /// <returns></returns>
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _employeesData.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

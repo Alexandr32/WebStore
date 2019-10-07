@@ -1,7 +1,8 @@
 ﻿<div class="left-sidebar">
-    <h2>Category</h2>_
-    @await Html.PartialAsync("Partial/LeftSideBar/_CategoryProducts")
-    @await Html.PartialAsync("Partial/LeftSideBar/_BrandsProducts")
+
+    @await Component.InvokeAsync("Category")
+    @await Component.InvokeAsync("Brands")
+
     @await Html.PartialAsync("Partial/LeftSideBar/_PriceRange")
     @await Html.PartialAsync("Partial/LeftSideBar/_Shipping")
 

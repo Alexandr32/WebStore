@@ -9,21 +9,6 @@ namespace WebStore.Controllers
 {
     public class ShopController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Shop()
-        {
-            return View();
-        }
-
-        public IActionResult ProductDetails()
-        {
-            return View();
-        }
-
         public IActionResult Checkout()
         {
             return View();

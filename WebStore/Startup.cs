@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStore.Infrastructure.Implementation;
+using WebStore.Infrastructure.Intefaces;
 
 namespace WebStore
 {
@@ -36,6 +38,10 @@ namespace WebStore
         {
             // Добавляем сервисы, необходимые для mvc
             services.AddMvc();
+
+            // Добавляем разрешение зависимости
+            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении
@@ -60,7 +66,7 @@ namespace WebStore
                 // Добавляем обработчик маршрута по умолчанию
                 routes.MapRoute(
                 name: "default",
-                template: "{controller=Shop}/{action=Index}/{id?}");
+                template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             var hello = Configuration["MyHelloWorld"];
