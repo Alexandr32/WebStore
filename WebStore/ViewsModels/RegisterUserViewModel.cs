@@ -16,17 +16,17 @@ namespace WebStore.ViewsModels
 
         // Почта
         [Display(Name = "Электронная почта")]
-        [Required, DataType(DataType.EmailAddress)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Поле является обязательным"), DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         // Пароль
-        [Required, DataType(DataType.Password)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Поле является обязательным"), DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         // Подтверждение пароля
         // Compare(nameof(Password)) - связывание с полем пароля
-        [Required, DataType(DataType.Password), Compare(nameof(Password), ErrorMessage = "Пароли не совпадает")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Поле является обязательным"), DataType(DataType.Password), Compare(nameof(Password), ErrorMessage = "Пароли не совпадает")]
         [Display(Name = "Подтверждение пароля")]
         public string ConfirmPassword { get; set; }
     }
