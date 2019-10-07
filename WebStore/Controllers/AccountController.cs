@@ -40,54 +40,30 @@ namespace WebStore.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
-            // Проверяем на валидацию данных
-            /*if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // Создаем сущность пользователь
-            var user = new User()
-            {
-                UserName = model.UserName
-            };
-
-            // Используем менеджер для создания
-            var createResult = await userManager.CreateAsync(user, model.Password);
-
-            // Проверяем результат
-            if (!createResult.Succeeded)
-            {
-                // Выводим ошибки
-                foreach (var identityError in createResult.Errors)
-                {
-                    ModelState.AddModelError("", identityError.Description);
-                }
-            }
-
-            // Если все успешно успешно -производим вход
-            await signInManager.SignInAsync(user, false);
-
-            RedirectToAction("Index", "Home");*/
-
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName };
-                //создаем сущность пользователь
-                var createResult = await userManager.CreateAsync(user,
-                model.Password); //используем менеджер для создания
+                // Cоздаем сущность пользователь
+                var user = new User 
+                { 
+                    UserName = model.UserName,
+                    Email = model.Email
+                };
+
+                // Используем менеджер для создания
+                var createResult = await userManager.CreateAsync(user, model.Password);
+
                 if (createResult.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, false);
-                    //если успешно-производим логин
-                    RedirectToAction("Index", "Home");
+                    // Если успешно -производим логин
+                    await signInManager.SignInAsync(user, false); 
+                    
+                    return RedirectToAction("Index", "Home");
                 }
-                else //иначе
+                else
                 {
+                    // Выводим ошибки
                     foreach (var identityError in createResult.Errors)
                     {
-//выводим                        ошибки
-
                         ModelState.AddModelError("", identityError.Description);
                     }
                 }
@@ -95,6 +71,5 @@ namespace WebStore.Controllers
 
             return View(model);
         }
-            
     }
 }
