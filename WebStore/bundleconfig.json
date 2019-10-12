@@ -1,0 +1,32 @@
+// Настройка комплектации и минификации для проекта.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    // Выходной файл
+    "outputFileName": "wwwroot/css/site.min.css",
+    // Массив относительных путей к входным файлам. Поддерживаются шаблоны Globbing
+    // Файлы для склейки
+    "inputFiles": [
+      //"wwwroot/css/prettyPhoto.css", //Ломал билд проекта (недопустимые символы)	
+      "wwwroot/css/price-range.css",
+      "wwwroot/css/animate.css",
+      // "wwwroot/css/main.css", //Ломал билд проекта (недопустимые символы)	
+      "wwwroot/css/responsive.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/price-range.js",
+      "wwwroot/js/jquery.prettyPhoto.js",
+      "wwwroot/js/main.js"
+    ],
+    // При желании укажите параметры минимизации
+    "minify": {
+      "enabled": false, // Параметр вкл/выкл
+      "renameLocals": false // Переименование переменных в более короткие
+    },
+    // Генерация промежуточного map файла
+    "sourceMap": false
+  }
+]

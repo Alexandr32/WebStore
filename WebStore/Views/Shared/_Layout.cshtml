@@ -6,13 +6,33 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewBag.Title | E-Shopper</title>
+
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
+
+    @*<link href="~/css/prettyPhoto.css" rel="stylesheet">
+        <link href="~/css/price-range.css" rel="stylesheet">
+        <link href="~/css/animate.css" rel="stylesheet">
+        <link href="~/css/main.css" rel="stylesheet">
+        <link href="~/css/responsive.css" rel="stylesheet">*@
+
+    @* Ошибка в минимизации, оставляем независимо от Development *@
+    @* Параметр позволяющий следить за версией файла asp-append-version *@
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
-    <link href="~/css/price-range.css" rel="stylesheet">
-    <link href="~/css/animate.css" rel="stylesheet">
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/responsive.css" rel="stylesheet">
+
+    @* Если включен режим разработчика включаем в файл *@
+    <environment include="Development">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet">
+        <link href="~/css/price-range.css" rel="stylesheet">
+        <link href="~/css/animate.css" rel="stylesheet">
+        <link href="~/css/responsive.css" rel="stylesheet">
+    </environment>
+    @* Исключает из файла *@
+    <environment exclude="Development">
+        <script src="~/js/site.min.js"></script>
+    </environment>
+
     <!--[if lt IE 9]>
     <script src="~/js/html5shiv.js"></script>
     <script src="~/js/respond.min.js"></script>
@@ -31,7 +51,6 @@
         @await Html.PartialAsync("Partial/Header/_HeaderMiddle")
         @await Html.PartialAsync("Partial/Header/_HeaderBottom")
     </header><!--/header-->
-
     @* Содержание страницы *@
     <div class="container">
         @RenderBody()
@@ -47,8 +66,20 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
-    <script src="~/js/price-range.js"></script>
+
+    @*<script src="~/js/price-range.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main.js"></script>*@
+
+    <environment include="Development">
+        <script src="~/js/price-range.js"></script>
+        <script src="~/js/jquery.prettyPhoto.js"></script>
+        <script src="~/js/main.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/js/site.min.js"></script>
+    </environment>
+
 </body>
 </html>
