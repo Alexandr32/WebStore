@@ -94,6 +94,11 @@ namespace WebStore
                 // Если AccessDeniedPath не установлен здесь, ASP.NET Core по умолчанию будет / Account / AccessDenied
                 options.SlidingExpiration = true;
             });
+
+            // Настройки для корзины
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            // ICartService используется на уровне запроса
+            services.AddScoped<ICartService, CookieCartService>(); 
         }
 
         // Данный метод вызвается инфраструктурой ASP.NET Core по завершении
