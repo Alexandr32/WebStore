@@ -412,6 +412,12 @@ namespace WebStore.Infrastructure.Implementation
         {
             return _category;
         }
+
+        public Product GetProductById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Список товаров
         /// </summary>

@@ -19,6 +19,10 @@
     <ProjectReference Include="..\WebStore.DomainNew\WebStore.DomainNew.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Catalog\Partial\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties bundleconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

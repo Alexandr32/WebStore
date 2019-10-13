@@ -28,5 +28,11 @@ namespace WebStore.Infrastructure.Intefaces
         /// <param name="filter">Фильтр товаров</param>
         /// <returns></returns>
         IEnumerable<Product> GetProducts(ProductFilter filter);
+        /// <summary>
+        /// Товар
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Сущность Product, если нашел, иначе null</returns>
+        Product GetProductById(int id);
     }
 }
