@@ -97,9 +97,11 @@ namespace WebStore.Controllers
 
                 if (createResult.Succeeded)
                 {
-                    // Если успешно -производим логин
-                    await signInManager.SignInAsync(user, false); 
-                    
+                    // Если успешно - производим логин
+                    await signInManager.SignInAsync(user, false);
+                    // Добавляем роль пользователю
+                    await userManager.AddToRoleAsync(user, "User");
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

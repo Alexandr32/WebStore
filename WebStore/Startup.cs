@@ -46,7 +46,8 @@ namespace WebStore
             // Добавляем разрешение зависимости
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
-            services.AddDbContext<WebStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<WebStoreContext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Добавляем сервис для аутентификации
             services.AddIdentity<User, IdentityRole>()
@@ -57,12 +58,26 @@ namespace WebStore
             {
                 // Настройка размера пароля
                 option.Password.RequiredLength = 6;
-                // Настройки блокировки
+                // Получает или задает флаг, указывающий, должен ли пароль содержать цифру.
+                // По умолчанию true.
+                option.Password.RequireDigit = false;
+                // Получает или задает флаг, указывающий, должны ли пароли содержать символ ASCII в нижнем регистре.
+                // По умолчанию true.
+                option.Password.RequireLowercase = false;
+                // Получает или задает флаг, указывающий, должны ли пароли содержать символ ASCII в верхнем регистре.
+                // По умолчанию true.
+                option.Password.RequireUppercase = false;
+                //Получает или задает флаг, указывающий, должны ли пароли содержать не буквенно - цифровой символ.
+                // По умолчанию true.
+                option.Password.RequireNonAlphanumeric = false;
+
+                // Получает или задает System.TimeSpan, для которого пользователь заблокирован при возникновении блокировки.
                 option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 option.Lockout.MaxFailedAccessAttempts = 10;
-                option.Lockout.AllowedForNewUsers = true;
+                // Получает или задает флаг, указывающий, можно ли заблокировать нового пользователя.
+                option.Lockout.AllowedForNewUsers = false;
 
-                // Пользовательские настройки
+                // флаг, указывающий, требует ли приложение уникальные электронные письма
                 option.User.RequireUniqueEmail = true;
             });
 
@@ -111,12 +126,12 @@ namespace WebStore
                 template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            var hello = Configuration["MyHelloWorld"];
+            //var hello = Configuration["MyHelloWorld"];
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync(hello);
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync(hello);
+            //});
         }
     }
 }

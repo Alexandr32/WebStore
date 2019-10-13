@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Intefaces;
@@ -10,6 +11,7 @@ using WebStore.ViewsModels;
 namespace WebStore.Controllers
 {
     [Route("users")]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeesData _employeesData;
@@ -26,6 +28,7 @@ namespace WebStore.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("edit/{id?}")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(int? id)
         {
             EmployeeView model;
@@ -49,6 +52,7 @@ namespace WebStore.Controllers
 
         [HttpPost]
         [Route("edit/{id?}")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(EmployeeView model)
         {
             if (model.Age < 18)
@@ -106,7 +110,8 @@ namespace WebStore.Controllers
         /// </summary>
         /// <param name="id">Id сотрудника</</param>
         /// <returns></returns>
-        [Route ( "{id}" )]
+        [Route("{id}")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Details(int id)
         {
             // Получаем сотрудника по Id
