@@ -27,7 +27,10 @@ namespace WebStore
                 try
                 {
                     WebStoreContext context = services.GetRequiredService<WebStoreContext>();
+                    // Инициализация первичных данных
                     DbInitializer.Initialize(context);
+                    // Создаем роли и администратора
+                    DbInitializer.InitializeUsers(services);
 
                 }
                 catch (Exception ex)

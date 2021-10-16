@@ -1,8 +1,9 @@
-﻿
+﻿@model WebStore.ViewsModels.CartViewModel
 @{
-    ViewData["Title"] = "Cart";
+    ViewData["Title"] = "Корзина";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @await Html.PartialAsync("Partial/_CartItems")
 @await Html.PartialAsync("Partial/_DoAction")
+

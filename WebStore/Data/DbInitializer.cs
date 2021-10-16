@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.DomainNew.Entities;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace WebStore.Data
 {
@@ -433,6 +437,72 @@ namespace WebStore.Data
                 context.SaveChanges();
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Products] OFF" );
                 trans.Commit();
+            }
+        }
+
+        /// <summary>
+        /// Создание ролей пользователя и администратора
+        /// </summary>
+        /// <param name="services"></param>
+        public static void InitializeUsers(IServiceProvider services)
+        {
+            // Сервис для ролей
+            var roleManager = services.GetService<RoleManager<IdentityRole>>();
+            // Создаем роль пользователя и администратора
+            EnsureRole(roleManager, "User");
+            EnsureRole(roleManager, "Administrator");
+            
+            // Создаем администратора
+            EnsureRoleToUser(services, "Admin", "Administrator", "admin123");
+        }
+
+        /// <summary>
+        /// Создаем роль
+        /// </summary>
+        /// <param name="roleManager">Менеджер ролей</param>
+        /// <param name="roleName">Имя роли</param>
+        private static void EnsureRole(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            // Узнаем существует ли роль
+            if (!roleManager.RoleExistsAsync(roleName).Result) 
+            {
+                // Если не существует то создаем
+                roleManager.CreateAsync(new IdentityRole(roleName)).Wait();
+            }
+        }
+
+        /// <summary>
+        /// Создаем пользователя
+        /// </summary>
+        /// <param name="services">ServiceProvider</param>
+        /// <param name="userName">Имя пользователя</param>
+        /// <param name="roleName">Роль пользователя</param>
+        /// <param name="pass">Пароль</param>
+        private static void EnsureRoleToUser(IServiceProvider services, string userName, string roleName, string pass)
+        {
+            UserManager<User> userManager = services.GetService<UserManager<User>>();
+            IUserStore<User> users = services.GetService<IUserStore<User>>();
+
+            // Ищем пользователя по имени
+            if (users.FindByNameAsync(userName, CancellationToken.None).Result != null)
+            {
+                return;
+            }
+
+            // Создаем пользователя (администратор)
+            var user = new User
+            {
+                UserName = userName,
+                Email = $"{userName}@domain.com"
+            };
+
+
+            // Добавляем пользователя в БД
+            var createResult = userManager.CreateAsync(user, pass);
+            if (createResult.Result.Succeeded)
+            {
+                // Даем ему роль
+                userManager.AddToRoleAsync(user, roleName).Wait();
             }
         }
     }
